@@ -1,0 +1,28 @@
+
+<h1>Info</h1>
+
+<p>Hi, This website is just an overengineered interface to rank a given list of routes. I've been given this exercise by a company.</p>
+
+
+<h2>The code that scores the trips:</h2>
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #222; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">func</span> <span style="color: #ffffff">getScore(trip</span> <span style="color: #ffffff">types.Trip,</span> <span style="color: #ffffff">oneWay</span> <span style="color: #cdcaa9; font-weight: bold">bool</span><span style="color: #ffffff">,</span> <span style="color: #ffffff">green</span> <span style="color: #cdcaa9; font-weight: bold">bool</span><span style="color: #ffffff">)</span> <span style="color: #cdcaa9; font-weight: bold">float64</span> <span style="color: #ffffff">{</span>
+    <span style="color: #ffffff">score</span> <span style="color: #ffffff">:=</span> <span style="color: #ffffff">trip.PriceEUR</span>
+    <span style="color: #ffffff">score</span> <span style="color: #ffffff">+=</span> <span style="color: #ffffff">(trip.DurationOutSec</span> <span style="color: #ffffff">-</span> <span style="color: #ffffff">trip.WorkTimeSec)</span> <span style="color: #ffffff">/</span> <span style="color: #0086f7; font-weight: bold">3600.0</span> <span style="color: #ffffff">*</span> <span style="color: #ffffff">MIN_WAGE_EUR</span>
+    <span style="color: #fb660a; font-weight: bold">if</span> <span style="color: #ffffff">green</span> <span style="color: #ffffff">{</span> <span style="color: #ffffff">score</span> <span style="color: #ffffff">+=</span> <span style="color: #ffffff">trip.CO2Kg</span> <span style="color: #ffffff">}</span>
+    <span style="color: #fb660a; font-weight: bold">if</span> <span style="color: #ffffff">!(oneWay</span> <span style="color: #ffffff">&amp;&amp;</span> <span style="color: #ffffff">!trip.BooReturn)</span> <span style="color: #ffffff">{</span> <span style="color: #ffffff">score</span> <span style="color: #ffffff">+=</span> <span style="color: #ffffff">math.Pow(</span><span style="color: #0086f7; font-weight: bold">2</span><span style="color: #ffffff">,</span><span style="color: #0086f7; font-weight: bold">20</span><span style="color: #ffffff">)</span> <span style="color: #ffffff">}</span>
+
+    <span style="color: #fb660a; font-weight: bold">return</span> <span style="color: #ffffff">score</span>
+<span style="color: #ffffff">}</span>
+
+<span style="color: #fb660a; font-weight: bold">func</span> <span style="color: #ffffff">ScoreTrips(trips</span> <span style="color: #ffffff">*[]types.Trip)</span> <span style="color: #ffffff">{</span>
+    <span style="color: #fb660a; font-weight: bold">for</span> <span style="color: #ffffff">i:=</span><span style="color: #0086f7; font-weight: bold">0</span><span style="color: #ffffff">;</span> <span style="color: #ffffff">i&lt;len(*trips);i++{</span>
+        <span style="color: #ffffff">(*trips)[i].Score</span> <span style="color: #ffffff">=</span> <span style="color: #ffffff">getScore((*trips)[i],</span><span style="color: #fb660a; font-weight: bold">true</span><span style="color: #ffffff">,</span><span style="color: #fb660a; font-weight: bold">true</span><span style="color: #ffffff">)</span>
+    <span style="color: #ffffff">}</span>
+<span style="color: #ffffff">}</span>
+</pre></div>
+
+<p>It's actualy fairly simple, I just have this code snippet that I used differently for each interface. </p>
+<p>I'm learning Go and HTMX so I figured I could create this in order to improve and it's nice to put something on github.</p>
+
